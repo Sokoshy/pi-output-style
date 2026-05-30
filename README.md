@@ -60,6 +60,50 @@ pi-output-style/
 └── package.json
 ```
 
+## Development
+
+### Setup local dev
+
+```bash
+# Clone the repo
+git clone git@github.com:Sokoshy/pi-output-style.git
+~/Documents/pi-output-style
+
+# Symlink into pi for live testing
+ln -sf ~/Documents/pi-output-style/extensions/output-style.ts ~/.pi/agent/extensions/output-style.ts
+ln -sf ~/Documents/pi-output-style/skills/output-style ~/.pi/agent/skills/output-style
+```
+
+### Test locally
+
+```bash
+# Reload pi to pick up changes
+/reload
+
+# Test the extension
+/style learning
+```
+
+### Push changes
+
+```bash
+cd ~/Documents/pi-output-style
+git add -A
+git commit -m "feat: my changes"
+git push
+```
+
+### Install from GitHub (after push)
+
+```bash
+# Remove local symlinks first
+rm ~/.pi/agent/extensions/output-style.ts
+rm -rf ~/.pi/agent/skills/output-style
+
+# Install from GitHub
+pi install github:Sokoshy/pi-output-style
+```
+
 ## Credits
 
 Inspired by Claude Code's output style plugins:
