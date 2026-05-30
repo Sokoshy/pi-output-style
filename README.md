@@ -25,7 +25,7 @@ cp output-style.ts ~/.pi/agent/extensions/
 ### Via pi
 
 ```bash
-pi install github:Sokoshy/pi-output-style
+pi install git:github.com/Sokoshy/pi-output-style
 ```
 
 ## Usage
@@ -101,7 +101,7 @@ rm ~/.pi/agent/extensions/output-style.ts
 rm -rf ~/.pi/agent/skills/output-style
 
 # Install from GitHub
-pi install github:Sokoshy/pi-output-style
+pi install git:github.com/Sokoshy/pi-output-style
 ```
 
 ## Credits
