@@ -14,19 +14,28 @@ Switch between learning and explanatory output modes, inspired by [Claude Code's
 
 ## Installation
 
+### Via pi (Recommended)
+
+```bash
+pi install git:github.com/Sokoshy/pi-output-style
+```
+
 ### Manual
 
 Copy `output-style.ts` to `~/.pi/agent/extensions/`:
 
 ```bash
-cp output-style.ts ~/.pi/agent/extensions/
+cp extensions/output-style.ts ~/.pi/agent/extensions/
+cp -r skills/output-style ~/.pi/agent/skills/
 ```
 
-### Via pi
+## Uninstall
 
 ```bash
-pi install git:github.com/Sokoshy/pi-output-style
+pi remove git:github.com/Sokoshy/pi-output-style
 ```
+
+Then restart pi or run `/reload`.
 
 ## Usage
 
