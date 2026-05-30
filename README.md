@@ -25,7 +25,7 @@ cp output-style.ts ~/.pi/agent/extensions/
 ### Via pi
 
 ```bash
-pi install github:YOUR_USERNAME/pi-output-style
+pi install github:Sokoshy/pi-output-style
 ```
 
 ## Usage
