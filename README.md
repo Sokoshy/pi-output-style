@@ -41,22 +41,23 @@ pi install github:YOUR_USERNAME/pi-output-style
 
 The extension uses pi's `before_agent_start` event to inject style instructions into the system prompt based on the current style set in `~/.pi/current-style`.
 
-## File Structure
+## Package Structure
 
 ```
-~/.pi/agent/
+pi-output-style/
 ├── extensions/
 │   └── output-style.ts      # The extension
-└── skills/
-    └── output-style/
-        ├── SKILL.md         # Documentation
-        ├── scripts/
-        │   ├── style.sh     # Shell backup
-        │   └── get-style.sh # Shell backup
-        └── styles/
-            ├── learning.md
-            ├── explanatory.md
-            └── learning-explanatory.md
+├── skills/
+│   └── output-style/
+│       ├── SKILL.md         # Documentation
+│       ├── scripts/
+│       │   ├── style.sh     # Shell backup
+│       │   └── get-style.sh # Shell backup
+│       └── styles/
+│           ├── learning.md
+│           ├── explanatory.md
+│           └── learning-explanatory.md
+└── package.json
 ```
 
 ## Credits

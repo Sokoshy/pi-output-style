@@ -2,18 +2,16 @@
   "name": "pi-output-style",
   "version": "1.0.0",
   "description": "Output style extension for pi - learning and explanatory modes",
-  "main": "output-style.ts",
   "keywords": [
-    "pi",
-    "pi-coding-agent",
-    "extension",
+    "pi-package",
     "output-style",
     "learning",
     "explanatory"
   ],
-  "author": "",
+  "author": "Sokoshy",
   "license": "MIT",
   "pi": {
-    "extensions": ["./output-style.ts"]
+    "extensions": ["./extensions"],
+    "skills": ["./skills"]
   }
 }
