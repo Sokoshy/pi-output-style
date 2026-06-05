@@ -1,124 +1,114 @@
-# pi-output-style
+# Learning Style Plugin
 
-Output style extension for [pi](https://github.com/earendil-works/pi) - the coding agent harness.
+This plugin combines the unshipped Learning output style with explanatory functionality as a `before_agent_start` hook.
 
-Switch between learning and explanatory output modes, inspired by [Claude Code's output style plugins](https://github.com/anthropics/claude-code/tree/main/plugins).
+**Note:** This plugin differs from the original unshipped Learning output style by also incorporating all functionality from the [explanatory-output-style plugin](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style), providing both interactive learning and educational insights.
 
-## Features
+WARNING: Do not install this plugin unless you are fine with incurring the token cost of this plugin's additional instructions and the interactive nature of learning mode.
 
-- **Learning mode** - Agent asks you to write key code parts at decision points
-- **Explanatory mode** - Agent provides educational insights about implementation choices
-- **Learning + Explanatory** - Both combined
-- **Default mode** - Standard agent behavior
-- **Autocomplete** - Style suggestions after typing `/style`
+## What it does
 
-## Installation
+When enabled, this plugin automatically adds instructions at the start of each session that encourage Claude to:
 
-### Via pi (Recommended)
+1. **Learning Mode:** Engage you in active learning by requesting meaningful code contributions at decision points
+2. **Explanatory Mode:** Provide educational insights about implementation choices and codebase patterns
 
-```bash
-pi install git:github.com/Sokoshy/pi-output-style
+Instead of implementing everything automatically, Claude will:
+
+1. Identify opportunities where you can write 5-10 lines of meaningful code
+2. Focus on business logic and design choices where your input truly matters
+3. Prepare the context and location for your contribution
+4. Explain trade-offs and guide your implementation
+5. Provide educational insights before and after writing code
+
+## How it works
+
+The plugin uses a `before_agent_start` hook to inject additional context into every session. This context instructs Claude to adopt an interactive teaching approach where you actively participate in writing key parts of the code.
+
+The style is stored in `~/.pi/current-style`. On session start, the extension reads this file and injects the corresponding voice.
+
+## When Claude requests contributions
+
+Claude will ask you to write code for:
+- Business logic with multiple valid approaches
+- Error handling strategies
+- Algorithm implementation choices
+- Data structure decisions
+- User experience decisions
+- Design patterns and architecture choices
+
+## When Claude won't request contributions
+
+Claude will implement directly:
+- Boilerplate or repetitive code
+- Obvious implementations with no meaningful choices
+- Configuration or setup code
+- Simple CRUD operations
+
+## Example interaction
+
+**Claude:** I've set up the authentication middleware. The session timeout behavior is a security vs. UX trade-off - should sessions auto-extend on activity, or have a hard timeout?
+
+In `auth/middleware.ts`, implement the `handleSessionTimeout()` function to define the timeout behavior.
+
+Consider: auto-extending improves UX but may leave sessions open longer; hard timeouts are more secure but might frustrate active users.
+
+**You:** [Write 5-10 lines implementing your preferred approach]
+
+## Educational insights
+
+In addition to interactive learning, Claude will provide educational insights about implementation choices using this format:
+
+```
+`★ Insight ─────────────────────────────────────`
+[2-3 key educational points about the codebase or implementation]
+`─────────────────────────────────────────────────`
 ```
 
-### Manual
-
-Copy `output-style.ts` to `~/.pi/agent/extensions/`:
-
-```bash
-cp extensions/output-style.ts ~/.pi/agent/extensions/
-cp -r skills/output-style ~/.pi/agent/skills/
-```
-
-## Uninstall
-
-```bash
-pi remove git:github.com/Sokoshy/pi-output-style
-```
-
-Then restart pi or run `/reload`.
+These insights focus on:
+- Specific implementation choices for your codebase
+- Patterns and conventions in your code
+- Trade-offs and design decisions
+- Codebase-specific details rather than general programming concepts
 
 ## Usage
 
-```
-/style learning              # Interactive learning mode
-/style explanatory           # Educational insights mode
-/style learning-explanatory  # Both combined
-/style default               # Standard mode
-```
-
-## How It Works
-
-The extension uses pi's `before_agent_start` event to inject style instructions into the system prompt based on the current style set in `~/.pi/current-style`.
-
-## Package Structure
+Once installed, the plugin activates automatically at the start of every session. Use `/style` to switch between modes:
 
 ```
-pi-output-style/
-├── extensions/
-│   └── output-style.ts      # The extension
-├── skills/
-│   └── output-style/
-│       ├── SKILL.md         # Documentation
-│       ├── scripts/
-│       │   ├── style.sh     # Shell backup
-│       │   └── get-style.sh # Shell backup
-│       └── styles/
-│           ├── learning.md
-│           ├── explanatory.md
-│           └── learning-explanatory.md
-└── package.json
+/style learning              # Interactive learning + educational insights
+/style explanatory           # Educational insights only
+/style default               # Standard mode (no extra instructions)
 ```
 
-## Development
-
-### Setup local dev
+## Installation
 
 ```bash
-# Clone the repo
-git clone git@github.com:Sokoshy/pi-output-style.git
-~/Documents/pi-output-style
-
-# Symlink into pi for live testing
-ln -sf ~/Documents/pi-output-style/extensions/output-style.ts ~/.pi/agent/extensions/output-style.ts
-ln -sf ~/Documents/pi-output-style/skills/output-style ~/.pi/agent/skills/output-style
-```
-
-### Test locally
-
-```bash
-# Reload pi to pick up changes
-/reload
-
-# Test the extension
-/style learning
-```
-
-### Push changes
-
-```bash
-cd ~/Documents/pi-output-style
-git add -A
-git commit -m "feat: my changes"
-git push
-```
-
-### Install from GitHub (after push)
-
-```bash
-# Remove local symlinks first
-rm ~/.pi/agent/extensions/output-style.ts
-rm -rf ~/.pi/agent/skills/output-style
-
-# Install from GitHub
 pi install git:github.com/Sokoshy/pi-output-style
 ```
 
-## Credits
+## Migration from Output Styles
 
-Inspired by Claude Code's output style plugins:
-- [learning-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)
-- [explanatory-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style)
+This plugin combines the unshipped "Learning" output style with the deprecated "Explanatory" output style. It provides an interactive learning experience where you actively contribute code at meaningful decision points, while also receiving educational insights about implementation choices.
+
+If you previously used the explanatory-output-style plugin, this learning plugin includes all of that functionality plus interactive learning features.
+
+This `before_agent_start` hook pattern is roughly equivalent to CLAUDE.md, but it is more flexible and allows for distribution through plugins.
+
+## Managing changes
+
+- Disable the plugin — set `/style default` to stop receiving extra instructions
+- Uninstall the plugin — remove the code from your device
+- Update the plugin — create a local copy of this plugin to personalize it
+
+## Philosophy
+
+Learning by doing is more effective than passive observation. This plugin transforms your interaction with Claude from "watch and learn" to "build and understand," ensuring you develop practical skills through hands-on coding of meaningful logic.
 
 ## License
 
 MIT
+
+Inspired by Claude Code's output style plugins:
+- [learning-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)
+- [explanatory-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style)
