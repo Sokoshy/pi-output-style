@@ -1,19 +1,15 @@
-# Learning Style Plugin
+# pi-output-style
 
-This plugin combines the unshipped Learning output style with explanatory functionality as a `before_agent_start` hook.
-
-**Note:** This plugin differs from the original unshipped Learning output style by also incorporating all functionality from the [explanatory-output-style plugin](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style), providing both interactive learning and educational insights.
-
-WARNING: Do not install this plugin unless you are fine with incurring the token cost of this plugin's additional instructions and the interactive nature of learning mode.
+Output style extension for pi — switch between learning and explanatory modes.
 
 ## What it does
 
-When enabled, this plugin automatically adds instructions at the start of each session that encourage Claude to:
+When enabled, this extension adds instructions at the start of each session that change how the agent interacts with you:
 
-1. **Learning Mode:** Engage you in active learning by requesting meaningful code contributions at decision points
-2. **Explanatory Mode:** Provide educational insights about implementation choices and codebase patterns
+1. **Learning Mode:** The agent engages you in active learning by requesting meaningful code contributions at decision points
+2. **Explanatory Mode:** The agent provides educational insights about implementation choices and codebase patterns
 
-Instead of implementing everything automatically, Claude will:
+Instead of implementing everything automatically, the agent will:
 
 1. Identify opportunities where you can write 5-10 lines of meaningful code
 2. Focus on business logic and design choices where your input truly matters
@@ -23,13 +19,13 @@ Instead of implementing everything automatically, Claude will:
 
 ## How it works
 
-The plugin uses a `before_agent_start` hook to inject additional context into every session. This context instructs Claude to adopt an interactive teaching approach where you actively participate in writing key parts of the code.
+The extension uses a `before_agent_start` hook to inject additional context into every session. This context instructs the agent to adopt an interactive teaching approach where you actively participate in writing key parts of the code.
 
 The style is stored in `~/.pi/current-style`. On session start, the extension reads this file and injects the corresponding voice.
 
-## When Claude requests contributions
+## When the agent requests contributions
 
-Claude will ask you to write code for:
+The agent will ask you to write code for:
 - Business logic with multiple valid approaches
 - Error handling strategies
 - Algorithm implementation choices
@@ -37,9 +33,9 @@ Claude will ask you to write code for:
 - User experience decisions
 - Design patterns and architecture choices
 
-## When Claude won't request contributions
+## When the agent won't request contributions
 
-Claude will implement directly:
+The agent will implement directly:
 - Boilerplate or repetitive code
 - Obvious implementations with no meaningful choices
 - Configuration or setup code
@@ -47,7 +43,7 @@ Claude will implement directly:
 
 ## Example interaction
 
-**Claude:** I've set up the authentication middleware. The session timeout behavior is a security vs. UX trade-off - should sessions auto-extend on activity, or have a hard timeout?
+**Agent:** I've set up the authentication middleware. The session timeout behavior is a security vs. UX trade-off - should sessions auto-extend on activity, or have a hard timeout?
 
 In `auth/middleware.ts`, implement the `handleSessionTimeout()` function to define the timeout behavior.
 
@@ -57,7 +53,7 @@ Consider: auto-extending improves UX but may leave sessions open longer; hard ti
 
 ## Educational insights
 
-In addition to interactive learning, Claude will provide educational insights about implementation choices using this format:
+In addition to interactive learning, the agent will provide educational insights about implementation choices using this format:
 
 ```
 `★ Insight ─────────────────────────────────────`
@@ -73,7 +69,7 @@ These insights focus on:
 
 ## Usage
 
-Once installed, the plugin activates automatically at the start of every session. Use `/style` to switch between modes:
+Once installed, the extension activates automatically at the start of every session. Use `/style` to switch between modes:
 
 ```
 /style learning              # Interactive learning + educational insights
@@ -89,26 +85,20 @@ pi install git:github.com/Sokoshy/pi-output-style
 
 ## Migration from Output Styles
 
-This plugin combines the unshipped "Learning" output style with the deprecated "Explanatory" output style. It provides an interactive learning experience where you actively contribute code at meaningful decision points, while also receiving educational insights about implementation choices.
+This extension combines the unshipped "Learning" output style with the deprecated "Explanatory" output style. It provides an interactive learning experience where you actively contribute code at meaningful decision points, while also receiving educational insights about implementation choices.
 
-If you previously used the explanatory-output-style plugin, this learning plugin includes all of that functionality plus interactive learning features.
-
-This `before_agent_start` hook pattern is roughly equivalent to CLAUDE.md, but it is more flexible and allows for distribution through plugins.
+If you previously used the explanatory output style, the learning mode includes all of that functionality plus interactive learning features.
 
 ## Managing changes
 
-- Disable the plugin — set `/style default` to stop receiving extra instructions
-- Uninstall the plugin — remove the code from your device
-- Update the plugin — create a local copy of this plugin to personalize it
+- Disable the extension — set `/style default` to stop receiving extra instructions
+- Uninstall the extension — remove the code from your device
+- Update the extension — create a local copy to personalize it
 
 ## Philosophy
 
-Learning by doing is more effective than passive observation. This plugin transforms your interaction with Claude from "watch and learn" to "build and understand," ensuring you develop practical skills through hands-on coding of meaningful logic.
+Learning by doing is more effective than passive observation. This extension transforms your interaction from "watch and learn" to "build and understand," ensuring you develop practical skills through hands-on coding of meaningful logic.
 
 ## License
 
 MIT
-
-Inspired by Claude Code's output style plugins:
-- [learning-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)
-- [explanatory-output-style](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style)
